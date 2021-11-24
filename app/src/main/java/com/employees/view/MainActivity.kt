@@ -15,6 +15,7 @@ import com.employees.databinding.ActivityMainBinding
 import com.employees.model.enums.Errors
 import com.employees.model.enums.Errors.*
 import com.employees.utils.UiEventsManager
+import com.employees.utils.UiEventsManager.shouldUpdateEmployees
 import com.employees.utils.UiEventsManager.showError
 import com.employees.utils.ext.launchWithDelay
 import com.employees.utils.ext.showToast
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun pressAgainToExit() {
         if (doubleBackToExitPressedOnce) {
+            shouldUpdateEmployees = true
             finishAffinity()
             return
         } else {
