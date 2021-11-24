@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name" translatable="false">Employees</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="press_again_to_exit">Press again to exit</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="dialog_to_logout_message">Are you sure that you want to logout?</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes_im_sure">Yes, I\'m sure</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="email_is_mandatory">Email is mandatory</string>
+    <string name="wrong_email_format">Wrong email format</string>
+    <string name="mandatory_password">Password is mandatory</string>
+</resources>
