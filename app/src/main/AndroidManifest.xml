@@ -13,16 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Employees">
         <activity
-            android:name=".view.splash.SplashActivity"
+            android:name=".view.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.SplashScreen">
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.MainActivity" />
     </application>
 
 </manifest>
