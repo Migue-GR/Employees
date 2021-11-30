@@ -1,38 +1,38 @@
 package com.employees.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.withTransaction
 import com.employees.datasource.local.AppDataBase
+import com.employees.model.enums.ErrorCode.ERROR_INVALID_CREDENTIALS
 import com.employees.model.local.User
 import com.employees.model.remote.UserDto
 import com.employees.model.remote.toUser
-import timber.log.Timber
+import com.employees.utils.EmployeesException
 import java.util.*
+import kotlin.random.Random
 
-class UserRepository(
-    private val localDataSource: AppDataBase
-) {
-    private val _user = MutableLiveData<User?>()
-    val user: LiveData<User?> = _user
+class UserRepository(private val localDataSource: AppDataBase) {
+    suspend fun login(email: String, password: String): User {
+        val user = UserDto(UUID.randomUUID().toString(), email).toUser()
+        localDataSource.withTransaction { localDataSource.userDao.insertItem(user) }
+        simulateHttpError()
+        return user
+    }
 
-    suspend fun login(email: String, password: String) {
-        try {
-            val user = UserDto(UUID.randomUUID().toString(), email).toUser()
-            localDataSource.withTransaction { localDataSource.userDao.insertItem(user) }
-            _user.postValue(user)
-        } catch (e: Exception) {
-            Timber.e(e, "Error while login with the credentials $email, $password")
-            _user.postValue(null)
+    private fun simulateHttpError() {
+        if (Random.nextBoolean()) {
+            throw EmployeesException(ERROR_INVALID_CREDENTIALS)
         }
     }
 
-    suspend fun logout() = localDataSource.withTransaction {
-        localDataSource.userDao.clearTable()
-        _user.postValue(null)
+    suspend fun getCurrentUser(): User? = localDataSource.withTransaction {
+        localDataSource.userDao.getItem()
     }
 
-    suspend fun getCurrentUser() = localDataSource.withTransaction {
-        _user.postValue(localDataSource.userDao.getItem())
+    /**
+     * Clears the users' table
+     * @return true if the number of deleted rows is greater that 1
+     */
+    suspend fun logout(): Boolean = localDataSource.withTransaction {
+        localDataSource.userDao.clearTable() >= 1
     }
 }

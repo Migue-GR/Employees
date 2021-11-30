@@ -12,5 +12,5 @@ interface UserDao {
     suspend fun getItem(): User?
 
     @Query("DELETE FROM Users")
-    fun clearTable()
+    fun clearTable(): Int
 }

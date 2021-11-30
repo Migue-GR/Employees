@@ -12,4 +12,7 @@
     <string name="email_is_mandatory">Email is mandatory</string>
     <string name="wrong_email_format">Wrong email format</string>
     <string name="mandatory_password">Password is mandatory</string>
+    <string name="invalid_credentials">Invalid credentials</string>
+    <string name="there_is_no_employees">There\'s no employees</string>
+    <string name="error_in_logout">Error in logout</string>
 </resources>

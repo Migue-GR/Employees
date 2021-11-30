@@ -5,10 +5,15 @@ import android.content.Context
 import com.employees.BuildConfig
 import com.employees.datasource.local.AppDataBase
 import com.employees.datasource.remote.EmployeesApi
+import com.employees.domain.GetCurrentUserUseCase
+import com.employees.domain.GetEmployeesUseCase
+import com.employees.domain.LoginUseCase
+import com.employees.domain.LogoutUseCase
 import com.employees.repository.EmployeeRepository
 import com.employees.repository.UserRepository
-import com.employees.viewmodel.EmployeeViewModel
-import com.employees.viewmodel.UserViewModel
+import com.employees.viewmodel.HomeViewModel
+import com.employees.viewmodel.LoginViewModel
+import com.employees.viewmodel.SplashViewModel
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -23,8 +28,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val viewModelsModule = module {
-    viewModel { UserViewModel(get()) }
-    viewModel { EmployeeViewModel(get()) }
+    viewModel { SplashViewModel(get()) }
+    viewModel { LoginViewModel(get()) }
+    viewModel { HomeViewModel(get(), get()) }
+}
+
+val useCasesModule = module {
+    factory { LoginUseCase(get()) }
+    factory { LogoutUseCase(get()) }
+    factory { GetCurrentUserUseCase(get()) }
+    factory { GetEmployeesUseCase(get()) }
 }
 
 val repositoriesModule = module {

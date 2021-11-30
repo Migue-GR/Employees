@@ -1,23 +1,21 @@
 package com.employees.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.transition.TransitionManager
 import com.employees.R
 import com.employees.databinding.ActivityMainBinding
-import com.employees.model.enums.Errors
-import com.employees.model.enums.Errors.*
-import com.employees.utils.UiEventsManager
-import com.employees.utils.UiEventsManager.shouldUpdateEmployees
-import com.employees.utils.UiEventsManager.showError
+import com.employees.model.enums.ErrorCode.*
+import com.employees.utils.AppSession
+import com.employees.utils.AppSession.shouldUpdateEmployees
+import com.employees.utils.EmployeesException
 import com.employees.utils.ext.launchWithDelay
 import com.employees.utils.ext.showToast
 import com.employees.view.home.HomeFragment
@@ -52,25 +50,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeUiEvents() {
-        UiEventsManager.run {
-            showLoading.observe(this@MainActivity, {
+        AppSession.run {
+            globalProgressBar.observe(this@MainActivity, {
                 TransitionManager.beginDelayedTransition(binding.layoutActivityMain)
                 binding.pgbMain.visibility = if (it) View.VISIBLE else View.GONE
                 binding.bgProgressBar.visibility = if (it) View.VISIBLE else View.GONE
                 binding.blockerViewsScreen.visibility = if (it) View.VISIBLE else View.GONE
             })
-            error.observe(this@MainActivity, errorObserver)
-        }
-    }
-
-    private val errorObserver = Observer<Errors> { error ->
-        when (error) {
-            UNKNOWN -> {
-            }
-            SOMETHING_WENT_WRONG -> {
-                errorSnackBar.setText(R.string.something_went_wrong).show()
-                showError(UNKNOWN)
-            }
+            globalError.observe(this@MainActivity, { error ->
+                if (error.errorCode != UNKNOWN_ERROR) {
+                    errorSnackBar.setText(error.localizedMessage).show()
+                    showGlobalError(EmployeesException(UNKNOWN_ERROR))
+                }
+            })
         }
     }
 

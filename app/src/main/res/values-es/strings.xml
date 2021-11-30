@@ -12,4 +12,7 @@
     <string name="email_is_mandatory">Debes ingresar tu correo</string>
     <string name="wrong_email_format">Tu correo está mal escrito</string>
     <string name="mandatory_password">Debes ingresar tu contraseña</string>
+    <string name="invalid_credentials">Credenciales inválidas</string>
+    <string name="there_is_no_employees">No hay empleados</string>
+    <string name="error_in_logout">Error al cerrar sesión</string>
 </resources>
