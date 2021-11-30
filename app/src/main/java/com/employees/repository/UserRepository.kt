@@ -30,7 +30,7 @@ class UserRepository(private val localDataSource: AppDataBase) {
 
     /**
      * Clears the users' table
-     * @return true if the number of deleted rows is greater that 1
+     * @return true if the number of deleted rows is greater than or equal to 1
      */
     suspend fun logout(): Boolean = localDataSource.withTransaction {
         localDataSource.userDao.clearTable() >= 1
